@@ -85,11 +85,11 @@ function movies_post_type() {
 
 }
 
-*/
+
 
 // Hook into the 'init' action
 add_action( 'init', 'movies_post_type', 0 );
-
+*/
 $markup = array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', );
 add_theme_support( 'html5', $markup );	
 
