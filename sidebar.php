@@ -1,5 +1,5 @@
 <div class="side">
-<a href="/"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/logo.jpg" alt="logo"></a>
+<a href="<?php bloginfo('url'); ?>"><img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/logo.jpg" alt="logo"></a>
 <ul id="sidebar">
 
  <li id="about">
