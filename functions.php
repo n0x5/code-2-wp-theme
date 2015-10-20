@@ -60,7 +60,6 @@ function custom_gallery($attr) {
 	$output = apply_filters('post_gallery', '', $attr);
 	if ( $output != '' )
 		return $output;
-	# We're trusting author input, so let's at least make sure it looks like a valid orderby statement
 	if ( isset( $attr['orderby'] ) ) {
 		$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
 		if ( !$attr['orderby'] )
