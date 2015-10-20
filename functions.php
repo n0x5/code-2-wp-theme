@@ -1,91 +1,124 @@
 <?php
-
-//if ( function_exists('register_sidebar') )
-//    register_sidebar();
+if ( function_exists('register_sidebar') )
+    register_sidebar();
 
 add_theme_support( 'title-tag' );
-
-function code2_widgets_init() {
-	register_sidebar( array(
-		'name'          => __( 'Widget Area', 'code-2' ),
-		'id'            => 'sidebar-1',
-		'description'   => __( 'Add widgets here to appear in your sidebar.', 'code-2' ),
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</aside>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
-}
-add_action( 'widgets_init', 'code2_widgets_init' );
-
-
-function register_my_menus() {
-  register_nav_menus(
-    array('header-menu' => __( 'Header Menu 1', 'code-2' ) )
-  );
-}
+add_theme_support( 'automatic-feed-links' );
+add_filter( 'use_default_gallery_style', '__return_false' );
 
 if ( ! isset( $content_width ) ) $content_width = 900;
 
-add_action( 'init', 'register_my_menus' );
-
-add_theme_support( 'post-formats', array( 'gallery', 'video', 'audio', 'aside' ) );
-
-add_theme_support( 'automatic-feed-links' );
-
-function code2_scripts() {
-wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.0.2' );
-wp_enqueue_style( 'code2-style', get_stylesheet_uri(), array( 'genericons' ) );
-wp_enqueue_script( 'code2-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20131209', true );
-}
-
-add_action( 'wp_enqueue_scripts', 'code2_scripts' );
-
-add_theme_support( 'post-thumbnails' );
+add_theme_support( 'post-formats', array( 'aside', 'image', 'link', 'quote', 'status' ) );
 
 $markup = array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', );
 add_theme_support( 'html5', $markup );	
+function comby_scripts() {
+	
+wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.0.2' );
+wp_enqueue_style( 'code2-style', get_stylesheet_uri(), array( 'genericons' ) );
 
-add_filter( 'use_default_gallery_style', '__return_false' );
+wp_enqueue_script( 'code2-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20131209', true );
+
+}
+add_action( 'wp_enqueue_scripts', 'comby_scripts' );
+
+
+function exclude_category_home( $query ) {
+if ( $query->is_home ) {
+$query->set( 'cat', '-224' );
+}
+return $query;
+}
+ 
+add_filter( 'pre_get_posts', 'exclude_category_home' );
+
+
+
+function remove_header_info() {
+    remove_action( 'wp_head', 'rsd_link' );
+    remove_action( 'wp_head', 'wlwmanifest_link' );
+    remove_action( 'wp_head', 'wp_generator' );
+    remove_action( 'wp_head', 'start_post_rel_link' );
+    remove_action( 'wp_head', 'index_rel_link' );
+    remove_action( 'wp_head', 'adjacent_posts_rel_link' );         // for WordPress < 3.0
+    remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' ); // for WordPress >= 3.0
+}
+add_action( 'init', 'remove_header_info' );
+
+remove_shortcode('gallery', 'gallery_shortcode');
+add_shortcode('gallery', 'custom_gallery');
+
+function custom_gallery($attr) {
+	$post = get_post();
+	static $instance = 0;
+	$instance++;
+	$attr['columns'] = 1;
+	$attr['size'] = 'full';
+	$attr['link'] = 'none';
+	$attr['orderby'] = 'post__in';
+	$attr['include'] = $attr['ids'];		
+	$output = apply_filters('post_gallery', '', $attr);
+	if ( $output != '' )
+		return $output;
+	# We're trusting author input, so let's at least make sure it looks like a valid orderby statement
+	if ( isset( $attr['orderby'] ) ) {
+		$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
+		if ( !$attr['orderby'] )
+		unset( $attr['orderby'] );
+	}
+	extract(shortcode_atts(array(
+		'order'      => 'ASC',
+		'orderby'    => 'menu_order ID',
+		'id'         => $post->ID,
+		'itemtag'    => 'div',
+		'icontag'    => 'div',
+		'captiontag' => 'p',
+		'columns'    => 1,
+		'size'       => 'thumbnail',
+		'include'    => '',
+		'exclude'    => ''
+	), $attr));
+	$id = intval($id);
+	if ( 'RAND' == $order )
+		$orderby = 'none';
+	if ( !empty($include) ) {
+		$_attachments = get_posts( array('include' => $include, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+		$attachments = array();
+		foreach ( $_attachments as $key => $val ) {
+			$attachments[$val->ID] = $_attachments[$key];
+		}
+	} elseif ( !empty($exclude) ) {
+		$attachments = get_children( array('post_parent' => $id, 'exclude' => $exclude, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+	} else {
+		$attachments = get_children( array('post_parent' => $id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+	}
+	if ( empty($attachments) )
+		return '';
+	$gallery_style = $gallery_div = '';
+	if ( apply_filters( 'use_default_gallery_style', true ) )
+		$gallery_style = "<!-- see gallery_shortcode() in functions.php -->";
+	$gallery_div = "<div class='gallery gallery-columns-1 gallery-size-full'>";
+	$output = apply_filters( 'gallery_style', $gallery_style . "\n\t\t" . $gallery_div );
+	foreach ( $attachments as $id => $attachment ) {
+                 $lr3nfo = wp_get_attachment_metadata($id);
+                 $lr2nfo = "$lr3nfo[width] x $lr3nfo[height]";	
+		$link = wp_get_attachment_link($id, 'thumbnail', false, false);
+		
+		$output .= "
+			
+                         <div class='imgc'>
+				$link$lr2nfo
+			</div>";
+		if ( $captiontag && trim($attachment->post_excerpt) ) {
+			$output .= "
+				<p class='wp-caption-text homepage-gallery-caption'>
+				" . wptexturize($attachment->post_excerpt) . "
+				</p>";
+		}
+		$output .= "";
+	}
+	$output .= "</div>\n";
+	return $output;
+}
 
 ?>
-
-<?php
- 
-function akv3_query_format_standard($query) {
-	if (isset($query->query_vars['post_format']) &&
-		$query->query_vars['post_format'] == 'post-format-standard') {
-		if (($post_formats = get_theme_support('post-formats')) &&
-			is_array($post_formats[0]) && count($post_formats[0])) {
-			$terms = array();
-			foreach ($post_formats[0] as $format) {
-				$terms[] = 'post-format-'.$format;
-			}
-			$query->is_tax = null;
-			unset($query->query_vars['post_format']);
-			unset($query->query_vars['taxonomy']);
-			unset($query->query_vars['term']);
-			unset($query->query['post_format']);
-			$query->set('tax_query', array(
-				'relation' => 'AND',
-				array(
-					'taxonomy' => 'post_format',
-					'terms' => $terms,
-					'field' => 'slug',
-					'operator' => 'NOT IN'
-				)
-			));
-		}
-	}
-}
-add_action('pre_get_posts', 'akv3_query_format_standard');
-
-function remove_gallery($content) {
-    global $post;
-
-    if($post->post_type == 'post')
-        remove_shortcode('gallery', $content);
-
-    return $content;
-}
-add_filter( 'the_content', 'remove_gallery', 6);
