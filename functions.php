@@ -105,7 +105,7 @@ function custom_gallery($attr) {
 		
 		$output .= "
 			
-                         <div class='imgc'>
+                         <div class='imgwat'>
 				$link$lr2nfo
 			</div>";
 		if ( $captiontag && trim($attachment->post_excerpt) ) {
