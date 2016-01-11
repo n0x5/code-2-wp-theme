@@ -1,11 +1,17 @@
 <?php
 if ( !function_exists( 'get_home_path' ) )
 	require_once( dirname(__FILE__) . '/../../../wp-admin/includes/file.php' );
+$path = get_home_path();
 $firstname = explode(" ",the_title('','',false));
 $firstname1 = $firstname[0]._.$firstname[1]._.$post->ID;
 $lastname = $firstname[1];
 $title = $firstname1;
-$zipname = "$title.zip";
+$zipname1 = "$title.zip";
+$uploads = wp_upload_dir();
+$uploa3 = $uploads['path'];
+$uploa3url = $uploads['url'];
+$zipname = "$uploa3/$zipname1";
+$zipnameurl = "$uploa3url/$zipname1";
 
 if (file_exists($zipname)) {
   // nothing 
@@ -23,6 +29,7 @@ if (file_exists($zipname)) {
 		                   
   } else {
 
+
 foreach ( $images as $attachment_id => $attachment ) { 
   $zip = new ZipArchive;
   $zip->open($zipname, ZipArchive::CREATE);
@@ -38,7 +45,7 @@ foreach ( $images as $attachment_id => $attachment ) {
 		}
 
 	}
-$path = get_home_path();
-chmod("$path/$firstname1.zip", 0755);
-echo "<div class=\"zipit\"><a href=\"/$firstname1.zip\">$firstname1.zip</a></div>";
+
+chmod("$zipname", 0755);
+echo "<div class=\"zipit\"><a href=\"$zipnameurl\">$firstname1.zip</a></div>";
 ?>
