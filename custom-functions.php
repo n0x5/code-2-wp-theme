@@ -7,7 +7,7 @@ Description: Plugin to add custom post types
 Author: Nox
 Author URI: 
 */
-/*
+
 function movies_post_type() {
 
 	$labels = array(
@@ -51,7 +51,7 @@ function movies_post_type() {
 
 // Hook into the 'init' action
 add_action( 'init', 'movies_post_type', 0 );
-*/
+
 add_filter('upload_mimes', 'pixert_upload_types');
 function pixert_upload_types($existing_mimes=array()){
 $existing_mimes['flv'] = 'video/x-flv';
