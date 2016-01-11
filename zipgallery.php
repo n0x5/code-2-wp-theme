@@ -23,12 +23,6 @@ if (file_exists($zipname)) {
 		                   
   } else {
 
-  $firstname = explode(" ",the_title('','',false));
-  $firstname1 = $firstname[0]._.$firstname[1]._.$post->ID;
-  $lastname = $firstname[1];
-  $title = $firstname1;
-  $zipname = "$title.zip";
-
 foreach ( $images as $attachment_id => $attachment ) { 
   $zip = new ZipArchive;
   $zip->open($zipname, ZipArchive::CREATE);
