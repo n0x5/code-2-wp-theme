@@ -1,0 +1,21 @@
+<?php
+
+$firstname = explode(" ",the_title('','',false));
+$firstname1 = $firstname[0]._.$firstname[1]._.$post->ID;
+$lastname = $firstname[1];
+$title = $firstname1;
+$zipname1 = "$title.zip";
+$uploads = wp_upload_dir();
+$uploa3 = $uploads['path'];
+$uploa3url = $uploads['url'];
+$zipname = "$uploa3/$zipname1";
+$zipnameurl = "$uploa3url";
+
+if (file_exists($zipname)) {
+  echo "<div class=\"zipit\"><a href=\"$zipnameurl/$firstname1.zip\">$firstname1.zip</a></div>";
+
+} else {
+echo "<div class=\"zipit\">Zip file not created, click on post to create one!</div>";
+}
+
+?>
