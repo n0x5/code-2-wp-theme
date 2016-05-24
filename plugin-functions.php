@@ -115,14 +115,13 @@ function custom_gallery($attr) {
 	$gallery_div = "<div class='gallery gallery-columns-1 gallery-size-full'>";
 	$output = apply_filters( 'gallery_style', $gallery_style . "\n\t\t" . $gallery_div );
 	foreach ( $attachments as $id => $attachment ) {
-                 $lr3nfo = wp_get_attachment_metadata($id);
-                 $lr2nfo = "$lr3nfo[width] x $lr3nfo[height]";	
+          
 		$link = wp_get_attachment_link($id, 'thumbnail', false, false);
 		
 		$output .= "
 			
                          <div class='imgc'>
-				$link <div class=\"dimensions\">$lr2nfo</div>
+				$link 
 			</div>";
 		if ( $captiontag && trim($attachment->post_excerpt) ) {
 			$output .= "
