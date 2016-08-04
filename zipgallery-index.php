@@ -16,7 +16,7 @@ if (file_exists($zipname)) {
   echo "<div class=\"zipit\"><a href=\"$zipnameurl/$firstname1.zip\">$firstname1.zip</a></div>";
 
 } else {
-echo "<div class=\"zipit\">Zip file not created, click on post to create one!</div>";
+echo "<div class=\"zipit\">No zip file found, open post to create!</div>";
 }
 
 ?>
