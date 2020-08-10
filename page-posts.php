@@ -6,7 +6,7 @@ Template Name: Posts Page
 
 <?php get_header('blog'); ?>
 
-
+<div class="entry">
 <?php
 $debut = 0; //The first article to be displayed
 ?>
@@ -23,3 +23,4 @@ foreach($myposts as $post) :
 <?php endforeach; ?>
 </ul>
 <?php endwhile; ?>
+</div>

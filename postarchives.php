@@ -38,8 +38,8 @@ Template Name: Post Archives Custom
     <div class="permalink"><li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a> <?php the_time('F jS, Y'); ?> </li></div>
  <?php endforeach; */ ?>
 
-
-<h1>Archives from categories</h1>
+<div class="entry">
+<h2>Archives from categories</h2>
 
 
 <?php
@@ -61,9 +61,10 @@ $categories=get_categories($cat_args);
         echo '<p><h2 class="arch"> <a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s", 'code-2' ), $category->name ) . '" ' . '>' . $category->name.' </a> </h2> </p> ';
         foreach($posts as $post) {
           setup_postdata($post); ?>
-          <p><li><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a> <?php the_time('F jS, Y'); ?></li> </p>
+          <li><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a> <?php the_time('F jS, Y'); ?></li>
           <?php
         } // foreach($posts
       } // if ($posts
     } // foreach($categories
 ?>
+</div>

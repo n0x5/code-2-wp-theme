@@ -1,4 +1,6 @@
 <?php get_header(); ?>
+<?php get_sidebar(); ?>
+<div id="page">
 <div id="main">
 	<?php if (have_posts()) : ?>
 	    <?php $post = $posts[0]; // Hack. Set $post so that the_date() works. ?>
@@ -24,11 +26,12 @@
 					get_template_part( 'content', get_post_format() );
 
 				 endwhile; ?>
-	<div class="navigation">
-		<div class="alignleft"><?php next_posts_link('&laquo; Older Entries', 'my-text-domain') ?></div>
-		<div class="alignright"><?php previous_posts_link('Newer Entries &raquo;', 'my-text-domain') ?></div>
-		<br clear="all" />
-	</div>
+	<div class="navigation">               
+                <div class="alignleft"><?php next_posts_link(__('&laquo; Previous Entries', 'code-2')) ?></div>
+                <div class="alignright"><?php previous_posts_link(__('Newer Entries  &raquo;', 'code-2')); ?></div>
+       </div>	
+	
 	<?php endif; ?>
 </div>
 <?php get_footer(); ?>
+</div>

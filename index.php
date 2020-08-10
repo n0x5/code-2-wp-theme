@@ -1,5 +1,11 @@
 <?php get_header(); ?>
-</div> <!-- header -->
+
+
+<body <?php body_class(); ?>>
+
+
+<?php get_sidebar(); ?>
+<div id="page">
 
 
 <div id="main">
@@ -11,13 +17,17 @@
                                      if ( is_singular() ) wp_enqueue_script( "comment-reply" ); 
 				 endwhile; ?>
 
-	<div class="navigation">               
-                <div class="alignleft"><?php next_posts_link(__('&laquo; Previous Entries', 'code-2')) ?></div>
-                <div class="alignright"><?php previous_posts_link(__('Newer Entries  &raquo;', 'code-2')); ?></div>
-       </div>	
+	
 	
 	
         
 	<?php endif; ?>
 </div>
+
+	
 <?php get_footer(); ?>
+	<div class="navigation">               
+                <div class="alignleft"><?php next_posts_link(__('&laquo; Previous Entries', 'code-2')) ?></div>
+                <div class="alignright"><?php previous_posts_link(__('Newer Entries  &raquo;', 'code-2')); ?></div>
+       </div>
+</div>

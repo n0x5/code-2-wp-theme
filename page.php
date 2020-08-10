@@ -1,4 +1,7 @@
 <?php get_header(); ?>
+<?php get_sidebar(); ?>
+
+<div id="page">
 <div id="main">
 
 
@@ -26,3 +29,4 @@
 	<?php endif; ?>
 </div>
 <?php get_footer(); ?>
+	</div>

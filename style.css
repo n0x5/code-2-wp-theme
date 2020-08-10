@@ -1,16 +1,16 @@
 /*
-Theme Name: code 2
+Theme Name: code 4
 Theme URI: http://
-Description: Two-columns, black background with green text theme from </a>
+Description: Two-columns, black background with green text theme from <a href="http://machinecode.org">coax*</a>
 Version: 1.0.3
 Author: nox
-Author URI: http://
-Tags: black, green, dark
+Text Domain: English
+Author URI: http://mc
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-*{margin:0;padding:0;}
+/* *{margin:0;padding:0;} */
 
 body {
 background-color: black;
@@ -20,6 +20,9 @@ line-height:180%;
 color: #dbdbdb;
 }
 
+code {
+background-color: #3E3E3E;
+}
 pre {
 font-family: Terminal, sans;
 font-size: 9px;
@@ -56,7 +59,10 @@ background-color: #00ff0c;
 }
 
 img {border:none;}
-ul,li{list-style-type:none;}
+ul,li{
+	list-style-type:none;
+	padding-inline-start: 10px;
+}
 
 textarea,input {
 font-size:12px;
@@ -124,8 +130,9 @@ color: #00ff0c;
 }
 
 #page {
+	/*
 width:900px;
-/*
+animation-iteration-count
 margin: auto 0;
 float: left;
 */
@@ -209,7 +216,7 @@ text-align:left;
 }
 
 .metatitle1 {
-font-family: Courier; monospace;
+font-family: Courier, monospace;
 color: #dbdbdb;
 border-bottom:1px solid black;
 padding:5px 10px;
@@ -219,18 +226,18 @@ padding:5px 10px;
 
 .entry{
 float:right;
-width:640px;
+
 padding-left:10px;
 margin-bottom: 40px;
 text-align: left;
 }
 
-#post-entry {line-height:180%;}
+.post-entry {width: 900px;}
 .entry p, .comment-entry p {margin-bottom:20px;}
 
-.navigation, .navigation a{font-size:11px;color:#ccc;}
+.navigation, .navigation a{font-size:11px;color:#ccc;width: 900px;}
 .navigation a:hover{background-color: #00ff0c;color:#00ff0c;}
-.alignleft {float:left;margin-bottom:10px;}
+.alignleft {float:left;margin-bottom:10px;margin-right:5px;}
 .alignright {float:right;}
 
 .admincomment .ava img {border: none;}
@@ -279,7 +286,9 @@ margin-bottom:50px;
 
 #sidebar {margin-bottom:0px;}
 
-.side , .side-last{float:left;width:212px;margin-left:10px; }
+.side , .side-last{
+	padding-inline-start: 0px; 
+}
 
 .title {
 padding-left:5px;
@@ -287,8 +296,10 @@ font-size:10px;
 color:#ddd;
 }
 
-.inside{padding-left:2px;margin-top:5px;}
-padding-left:9px;
+.inside{
+	padding-left:2px;
+	margin-top:5px;
+    padding-left:9px;
 }
 
 .copyright {padding-top:5px;font-size:11px;}
@@ -353,7 +364,7 @@ text-align: center;
 
 
 
-.gallery { margin: 0 auto 18px; }
+.gallery { margin: 0 auto 18px; width: 900px; }
 .gallery .gallery-item {
 	float: left;
 	margin-top: 0;
@@ -364,7 +375,7 @@ text-align: center;
 .gallery-columns-4 .gallery-item { width: 25%; }
 .gallery img {
 	box-shadow: 0px 0px 3px #cbcbcb;
-	padding: 8px;
+	
 	background: #f2f2f2f2;
       
    
@@ -406,19 +417,6 @@ text-align: center;
 .bypostauthor {
 }
 
-div.dimensions {
-
-}
-
-.imgc {
-height: 110px;
-width: 90px;
-padding-right: 30px;
-margin-right: 70px;
-padding-bottom: 30px;
-margin-bottom: 70px;
-float: left;
-}
 
 
 nav#nav-single {
